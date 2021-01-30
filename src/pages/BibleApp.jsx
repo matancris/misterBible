@@ -5,25 +5,24 @@ import { bibleService } from '../services/bibleService.js'
 export default function BibleApp() {
 
     const [chapter, setChapter] = useState({ num: '', txt: '' })
-    const [book, setBook] = useState('בראשית')
+    const [filter, setFilter] = useState({ book: 'בראשית', chapter: 'א' })
 
     useEffect(() => {
-        onChangeChapter()
-    }, [])
+        loadChapter(filter)
+    }, [filter])
 
-    useEffect(() => {
-        bibleService.setCurrBook(book)
-        onChangeChapter()
-    }, [book])
-
-
-    const onChangeChapter = async (direction) => {
-        const chapter = await bibleService.getChapter(direction)
+    const loadChapter = async (filter) => {
+        const chapter = await bibleService.getChapterForDisplay(filter)
         setChapter(chapter)
     }
 
+    const onChangeChapter = (direction) => {
+        const chapterNum = bibleService.getChapterNum(filter.chapter, direction)
+        setFilter({...filter , chapter: chapterNum})
+    }
+
     const onSetFilter = ({ target }) => {
-        setBook(target.value)
+        setFilter({book: target.value , chapter: 'א'})
     }
 
     return (
@@ -31,10 +30,10 @@ export default function BibleApp() {
             <section className="main-wrapper flex column align-center">
                 <BibleFilter onSetFilter={onSetFilter} />
                 <div className="view-wrapper flex column">
-                    <h1 className="title">ספר {book} פרק {chapter?.num}</h1>
+                    <h1 className="title">ספר {filter.book} פרק {chapter.num}</h1>
                     <div className="pager flex space-around flex-1">
                         <button onClick={() => onChangeChapter(1)}>next</button>
-                        <h3>{chapter?.txt}</h3>
+                        <h3>{chapter.txt}</h3>
                         <button onClick={() => onChangeChapter(-1)}>prev</button>
                     </div>
                 </div>
@@ -45,12 +44,7 @@ export default function BibleApp() {
 
 // ON-WORK Directions
 
-// const [filter, setFilter] = useState({ book: '', chapter: '' })
-
-// const loadChapter = async (filter) => {
-//     const chapter = await bibleService.query(filter)
-//     setChapter(chapter)
-// }
+// const [book, setBook] = useState('בראשית')
 
 // const onSetFilter = ({ target }) => {
 //     setFilter({ chapter: 'א', book: target.value })
