@@ -1,34 +1,11 @@
 import axios from "axios"
 const BASE_URL = 'http://localhost:3000/bible'
 
-let gCurrChapterIdx = 0
-let gCurrBook = 'בראשית'
-
-
 export const bibleService = {
     query,
     getChapterForDisplay,
-    getChapterNum,
-    // getChapter,
-    setCurrBook
+    getChapterNum
 }
-
-// async function getChapter(direction = 0) {
-//     try {
-//         const res = await axios.get(`${BASE_URL}`)
-//         gCurrChapterIdx += direction
-//         if (gCurrChapterIdx < 0) gCurrChapterIdx = 0;
-//         const chapter = res.data[gCurrBook].chapters[gCurrChapterIdx]
-//         const chapterForDisplay = {
-//             num: chapter.num,
-//             txt: _getChapterTXT(chapter)
-//         }
-//         return chapterForDisplay
-
-//     } catch {
-//         console.log('Error while trying to get a chpter');
-//     }
-// }
 
 async function getChapterForDisplay(filter = { book: 'בראשית', chapter: 'א' }) {
     const { book, chapter } = filter
@@ -48,24 +25,14 @@ async function query(book) {
 }
 
 function getChapterNum(currChapter, direction) {
-    console.log("🚀 ~ file: bibleService.js ~ line 51 ~ getChapterNum ~ currChapter", currChapter)
     const chapterNums = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "יא", "יב", "יג", "יד", "טו", "טז", "יז", "יח", "יט", "כ", "כא", "כב", "כג", "כד", "כה", "כו", "כז", "כח", "כט", "ל", "לא", "לב", "לג", "לד", "לה", "לו", "לז", "לח", "לט", "מ", "מא", "מב", "מג", "מד", "מה", "מו", "מז", "מח", "מט", "נ", "נא","נב"];
     const currIdx = chapterNums.findIndex(chapterNum => chapterNum === currChapter)
     if (currIdx + direction === -1) return 'א'
-    console.log("🚀 ~ file: bibleService.js ~ line 54 ~ getChapterNum ~ currIdx", currIdx)
     return chapterNums[currIdx + direction]
-
-}
-
-function setCurrBook(book) {
-    gCurrBook = book
-    gCurrChapterIdx = 0
 }
 
 
 // LOCAL FUNCTIONS
-
-
 
 function _getChapterTXT(chapter) {
     const chapterTxts = chapter.verses.map(verse => verse.txt)
@@ -138,10 +105,37 @@ function _getChapterForDisplay(chapter) {
 
 // DEPRECATED
 
+
+// let gCurrChapterIdx = 0
+// let gCurrBook = 'בראשית'
+
 // async function changeChapter(direction, filter) {
 //     const { book, chapter } = filter
 //     const currBook = await query(book)
 //     const chapterIdx = _getChapterIdx(currBook.chapters, chapter)
 //     const currChapter = currBook.chapters[chapterIdx + direction]
 //     return _getChapterForDisplay(currChapter)
+// }
+
+
+// async function getChapter(direction = 0) {
+//     try {
+//         const res = await axios.get(`${BASE_URL}`)
+//         gCurrChapterIdx += direction
+//         if (gCurrChapterIdx < 0) gCurrChapterIdx = 0;
+//         const chapter = res.data[gCurrBook].chapters[gCurrChapterIdx]
+//         const chapterForDisplay = {
+//             num: chapter.num,
+//             txt: _getChapterTXT(chapter)
+//         }
+//         return chapterForDisplay
+
+//     } catch {
+//         console.log('Error while trying to get a chpter');
+//     }
+// }
+
+// function setCurrBook(book) {
+//     gCurrBook = book
+//     gCurrChapterIdx = 0
 // }
