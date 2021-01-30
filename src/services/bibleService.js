@@ -1,7 +1,7 @@
 import axios from "axios"
 const BASE_URL = 'http://localhost:3000/bible'
 
-let currChapter = 0
+let gCurrChapterIdx = 0
 let gCurrBook = 'בראשית'
 
 
@@ -14,9 +14,9 @@ export const bibleService = {
 async function getChapter(direction = 0) {
     try {
         const res = await axios.get(`${BASE_URL}`)
-        currChapter += direction
-        if (currChapter < 0) currChapter = 0;
-        const chapter = res.data[gCurrBook].chapters[currChapter]
+        gCurrChapterIdx += direction
+        if (gCurrChapterIdx < 0) gCurrChapterIdx = 0;
+        const chapter = res.data[gCurrBook].chapters[gCurrChapterIdx]
         const chapterForDisplay = {
             num: chapter.num,
             txt: _getChapterTXT(chapter)
@@ -30,7 +30,7 @@ async function getChapter(direction = 0) {
 
 function setCurrBook(book) {
     gCurrBook = book
-    currChapter = 0
+    gCurrChapterIdx = 0
 }
 
 
