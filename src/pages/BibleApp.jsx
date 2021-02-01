@@ -6,29 +6,41 @@ export default function BibleApp() {
 
     const [chapter, setChapter] = useState({ num: '', txt: '' })
     const [filter, setFilter] = useState({ book: 'בראשית', chapter: 'א' })
+    const [chapterNums, setChapterNums] = useState([])
 
     useEffect(() => {
         loadChapter(filter)
     }, [filter])
+
+    useEffect(() => {
+        getChapterNums(filter.book)
+    }, [filter.book])
+
 
     const loadChapter = async (filter) => {
         const chapter = await bibleService.getChapterForDisplay(filter)
         setChapter(chapter)
     }
 
-    const onChangeChapter = (direction) => {
-        const chapterNum = bibleService.getChapterNum(filter.chapter, direction)
-        setFilter({...filter , chapter: chapterNum})
+    const onChangeChapter = async (direction) => {
+        const chapterNum = await bibleService.getChapterNum(filter, direction)
+        setFilter({ ...filter, chapter: chapterNum })
     }
 
     const onSetFilter = ({ target }) => {
-        setFilter({book: target.value , chapter: 'א'})
+        const { name, value } = target
+        setFilter({ ...filter, [name]: value })
+    }
+
+    const getChapterNums = async (book) => {
+        const chapterNums = await bibleService.getChaptersNumByBook(book)
+        setChapterNums(chapterNums)
     }
 
     return (
         <section className="bible-app main-container">
             <section className="main-wrapper flex column align-center">
-                <BibleFilter onSetFilter={onSetFilter} />
+                <BibleFilter chapterNums={chapterNums} currFilter={filter} onSetFilter={onSetFilter} />
                 <div className="view-wrapper flex column">
                     <h1 className="title">ספר {filter.book} פרק {chapter.num}</h1>
                     <div className="pager flex space-around flex-1">
@@ -41,6 +53,8 @@ export default function BibleApp() {
         </section>
     )
 }
+
+
 
 // ON-WORK Directions
 

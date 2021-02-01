@@ -4,7 +4,8 @@ const BASE_URL = 'http://localhost:3000/bible'
 export const bibleService = {
     query,
     getChapterForDisplay,
-    getChapterNum
+    getChapterNum,
+    getChaptersNumByBook
 }
 
 async function getChapterForDisplay(filter = { book: 'בראשית', chapter: 'א' }) {
@@ -24,12 +25,24 @@ async function query(book) {
     }
 }
 
-function getChapterNum(currChapter, direction) {
-    const chapterNums = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "יא", "יב", "יג", "יד", "טו", "טז", "יז", "יח", "יט", "כ", "כא", "כב", "כג", "כד", "כה", "כו", "כז", "כח", "כט", "ל", "לא", "לב", "לג", "לד", "לה", "לו", "לז", "לח", "לט", "מ", "מא", "מב", "מג", "מד", "מה", "מו", "מז", "מח", "מט", "נ", "נא","נב"];
-    const currIdx = chapterNums.findIndex(chapterNum => chapterNum === currChapter)
+async function getChapterNum(currFilter, direction) {
+    const { book, chapter } = currFilter
+    // const chapterNums = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "יא", "יב", "יג", "יד", "טו", "טז", "יז", "יח", "יט", "כ", "כא", "כב", "כג", "כד", "כה", "כו", "כז", "כח", "כט", "ל", "לא", "לב", "לג", "לד", "לה", "לו", "לז", "לח", "לט", "מ", "מא", "מב", "מג", "מד", "מה", "מו", "מז", "מח", "מט", "נ", "נא", "נב"];
+    const chapterNums = await getChaptersNumByBook(book)
+    console.log("🚀 ~ file: bibleService.js ~ line 32 ~ getChapterNum ~ chapterNums", chapterNums)
+    const currIdx = chapterNums.findIndex(chapterNum => chapterNum === chapter)
     if (currIdx + direction === -1) return 'א'
     return chapterNums[currIdx + direction]
 }
+
+async function getChaptersNumByBook(book) {
+    const currBook = await query(book)
+    return currBook.chapters.reduce((chapterNums, chapter) => {
+        chapterNums.push(chapter.num)
+        return chapterNums
+    }, [])
+}
+
 
 
 // LOCAL FUNCTIONS
@@ -54,6 +67,7 @@ function _getChapterForDisplay(chapter) {
     }
     return chapterForDisplay
 }
+
 
 
 
