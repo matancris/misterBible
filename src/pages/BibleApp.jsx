@@ -43,7 +43,7 @@ export default function BibleApp() {
                 <BibleFilter chapterNums={chapterNums} currFilter={filter} onSetFilter={onSetFilter} />
                 <div className="view-wrapper flex column">
                     <h1 className="title">ספר {filter.book} פרק {chapter.num}</h1>
-                    <div className="pager flex space-around flex-1">
+                    <div className="main-content flex space-around flex-1">
                         <button onClick={() => onChangeChapter(1)}>next</button>
                         <h3>{chapter.txt}</h3>
                         <button onClick={() => onChangeChapter(-1)}>prev</button>
