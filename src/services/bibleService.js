@@ -11,9 +11,13 @@ export const bibleService = {
 
 async function getChapterForDisplay(filter = { book: 'בראשית', chapter: 'א' }) {
     const { book, chapter } = filter
-    const currBook = await query(book)
-    const currChapter = _getChapter(currBook.chapters, chapter)
-    return _getChapterForDisplay(currChapter)
+    try {
+        const currBook = await query(book)
+        const currChapter = _getChapter(currBook.chapters, chapter)
+        return _getChapterForDisplay(currChapter)
+    } catch (err) {
+        console.log('error while getting chapter', err);
+    }
 }
 
 async function query(book) {
@@ -22,26 +26,33 @@ async function query(book) {
         const bible = res.data
         return bible[book]
     } catch (err) {
-        console.log('Error while trying to get a bible', err);
+        console.log('Error while trying to get the bible', err);
     }
 }
 
 async function getChapterNum(currFilter, direction) {
     const { book, chapter } = currFilter
-    // const chapterNums = ["א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט", "י", "יא", "יב", "יג", "יד", "טו", "טז", "יז", "יח", "יט", "כ", "כא", "כב", "כג", "כד", "כה", "כו", "כז", "כח", "כט", "ל", "לא", "לב", "לג", "לד", "לה", "לו", "לז", "לח", "לט", "מ", "מא", "מב", "מג", "מד", "מה", "מו", "מז", "מח", "מט", "נ", "נא", "נב"];
-    const chapterNums = await getChaptersNumByBook(book)
-    console.log("🚀 ~ file: bibleService.js ~ line 32 ~ getChapterNum ~ chapterNums", chapterNums)
-    const currIdx = chapterNums.findIndex(chapterNum => chapterNum === chapter)
-    if (currIdx + direction === -1) return 'א'
-    return chapterNums[currIdx + direction]
+    try {
+        const chapterNums = await getChaptersNumByBook(book)
+        console.log("🚀 ~ file: bibleService.js ~ line 32 ~ getChapterNum ~ chapterNums", chapterNums)
+        const currIdx = chapterNums.findIndex(chapterNum => chapterNum === chapter)
+        if (currIdx + direction === -1) return 'א'
+        return chapterNums[currIdx + direction]
+    } catch (err) {
+        console.log('error while getting chapter num', err);
+    }
 }
 
 async function getChaptersNumByBook(book) {
-    const currBook = await query(book)
-    return currBook.chapters.reduce((chapterNums, chapter) => {
-        chapterNums.push(chapter.num)
-        return chapterNums
-    }, [])
+    try {
+        const currBook = await query(book)
+        return currBook.chapters.reduce((chapterNums, chapter) => {
+            chapterNums.push(chapter.num)
+            return chapterNums
+        }, [])
+    } catch (err) {
+        console.log('error while getting chapter nums', err);
+    }
 }
 
 

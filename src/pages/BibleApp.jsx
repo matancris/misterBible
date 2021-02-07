@@ -5,13 +5,12 @@ import { bibleService } from '../services/bibleService.js'
 import { utilService } from '../services/utilService.js'
 
 export default function BibleApp() {
-    const txtRef = useRef(null)
 
     const [chapter, setChapter] = useState({ num: '', txt: '' })
     const [filter, setFilter] = useState({ book: 'בראשית', chapter: 'א' })
     const [chapterNums, setChapterNums] = useState([])
     const [numeroMap, setNumeroMap] = useState({})
-    const [numero, setNumero] = useState({ num: '', posotion: {} })
+    const [numero, setNumero] = useState({ num: null, posotion: {} })
 
     useEffect(() => {
         loadChapter(filter)
@@ -27,6 +26,7 @@ export default function BibleApp() {
         setChapter(chapter)
         const numeroMap = bibleService.getNumeroWordsMap(chapter.txt)
         setNumeroMap(numeroMap)
+        clearNumeroModal()
     }
 
     const onChangeChapter = async (direction) => {
@@ -49,16 +49,25 @@ export default function BibleApp() {
         setNumero({ num: numeroMap[word], position: { x: ev.pageX - 5, y: ev.pageY - 50 } })
     }
 
+    const clearNumeroModal = () => {
+        setNumero({ num: null, posotion: {} })
+    }
+
     return (
         <section className="bible-app main-container">
             <section className="main-wrapper flex column align-center">
-                <BibleFilter chapterNums={chapterNums} currFilter={filter} onSetFilter={onSetFilter} />
+                <BibleFilter
+                    chapterNums={chapterNums}
+                    currFilter={filter}
+                    onSetFilter={onSetFilter}
+                />
                 <div className="view-wrapper flex column">
                     <h1 className="title">ספר {filter.book} פרק {chapter.num}</h1>
                     <div className="main-content flex space-around flex-1">
                         <button onClick={() => onChangeChapter(1)}>next</button>
-                        <h3 ref={txtRef} onClick={onWordClick}>{chapter.txt}</h3>
-                        {numero && <NumeroModal position={numero.position} numero={numero.num} />}
+                        <h3 onClick={onWordClick}>{chapter.txt}</h3>
+                        {numero.num &&
+                            <NumeroModal position={numero.position} numero={numero.num} />}
                         <button onClick={() => onChangeChapter(-1)}>prev</button>
                     </div>
                 </div>
@@ -67,12 +76,3 @@ export default function BibleApp() {
     )
 }
 
-
-
-// ON-WORK Directions
-
-// const [book, setBook] = useState('בראשית')
-
-// const onSetFilter = ({ target }) => {
-//     setFilter({ chapter: 'א', book: target.value })
-// }
