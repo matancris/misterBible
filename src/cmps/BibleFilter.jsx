@@ -1,12 +1,11 @@
 import React from 'react'
 
 export default function BibleFilter({ onSetFilter, chapterNums, currFilter }) {
-    console.log(chapterNums);
     return (
         <form className="bible-filter flex justify-center">
             <select name="chapter" onChange={ev => onSetFilter(ev)} value={currFilter.chapter}>
                 {
-                    chapterNums.map(chapterNum => <option>{chapterNum}</option>)
+                    chapterNums.map(chapterNum => <option key={chapterNum}>{chapterNum}</option>)
                 }
             </select>
             <select name="book" onChange={ev => onSetFilter(ev)} value={currFilter.book}>

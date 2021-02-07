@@ -5,7 +5,8 @@ export const bibleService = {
     query,
     getChapterForDisplay,
     getChapterNum,
-    getChaptersNumByBook
+    getChaptersNumByBook,
+    getNumeroWordsMap
 }
 
 async function getChapterForDisplay(filter = { book: 'בראשית', chapter: 'א' }) {
@@ -44,6 +45,15 @@ async function getChaptersNumByBook(book) {
 }
 
 
+function getNumeroWordsMap(txt) {
+    console.log("🚀 ~ file: bibleService.js ~ line 49 ~ getNumeroWordsMap ~ txt", txt)
+    const numeroMap = txt.split(' ').reduce((numeroMapAcc, word)=>{
+        numeroMapAcc[word] = _getNumerology(word)
+        return numeroMapAcc
+    },{})
+    return numeroMap;
+}
+
 
 // LOCAL FUNCTIONS
 
@@ -68,7 +78,42 @@ function _getChapterForDisplay(chapter) {
     return chapterForDisplay
 }
 
-
+function _getNumerology(txt) {
+    const numeroMap = {
+        "א": 1,
+        "ב": 2,
+        "ג": 3,
+        "ד": 4,
+        "ה": 5,
+        "ו": 6,
+        "ז": 7,
+        "ח": 8,
+        "ט": 9,
+        "י": 10,
+        "כ": 20,
+        "ל": 30,
+        "מ": 40,
+        "נ": 50,
+        "ס": 60,
+        "ע": 70,
+        "פ": 80,
+        "צ": 90,
+        "ק": 100,
+        "ר": 200,
+        "ש": 300,
+        "ת": 400,
+        "ם": 40,
+        "ך": 20,
+        "ן":50,
+        "ף": 80,
+        "ץ": 90,
+    }
+    const numeroTxt = txt.split('').reduce((sumAcc, char) =>{
+        sumAcc += numeroMap[char] || 0
+        return sumAcc
+    }, 0)
+    return numeroTxt
+}
 
 
 
