@@ -38,6 +38,7 @@ const numeroMap = {
 
 export const bibleService = {
     query,
+    getCurrBook,
     setCurrChapter,
     setCurrDisplay,
     getChaptersNum,
@@ -49,6 +50,10 @@ export const bibleService = {
 
 function query() {
     return tora[gCurrBook].chapters[gCurrChapterIdx]
+}
+
+function getCurrBook() {
+    return gCurrBook
 }
 
 function setCurrChapter(currChapter, direction = 0) {
