@@ -26,6 +26,9 @@
         flex-direction: column;
     }
 
+    &.row-reverse {
+        flex-direction: row-reverse;
+    }
     &.flex-1 {
         flex-grow: 1;
     }
