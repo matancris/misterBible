@@ -8,6 +8,7 @@ export default function BibleApp() {
     const [chapter, setChapter] = useState({ num: '', verses: [] })
     const [book, setBook] = useState('בראשית')
     const [chapterNums, setChapterNums] = useState([])
+    const [isGimaOn, setIsGimaOn] = useState(false)
 
     useEffect(() => {
         getChapterNums(book)
@@ -37,23 +38,25 @@ export default function BibleApp() {
         setChapterNums(chapterNums)
     }
 
+    const onToggleGima = ({target}) => {
+       setIsGimaOn(target.checked)
+    }
+
     return (
         <section className="bible-app main-container">
-            <section className="main-wrapper flex column align-center">
-                <BibleFilter
-                    chapterNums={chapterNums}
-                    currChapterNum={chapter.num}
-                    onSetFilter={onSetFilter}
-                />
+            <div className="main-wrapper flex column align-center">
+                <BibleFilter chapterNums={chapterNums} currChapterNum={chapter.num} onSetFilter={onSetFilter} />
+                <label htmlFor="gimaBtn">גימטריה</label>
+                <input id="gimaBtn" type="checkbox" onChange={onToggleGima} value={isGimaOn}/>
                 <div className="view-wrapper flex column">
                     <h1 className="title">ספר {book} פרק {chapter.num}</h1>
                     <div className="main-content flex space-around flex-1">
                         <button onClick={() => onChangeChapter(1)}>next</button>
-                        <VerseList verses={chapter.verses}/>
+                        <VerseList verses={chapter.verses} isGimaOn={isGimaOn}/>
                         <button onClick={() => onChangeChapter(-1)}>prev</button>
                     </div>
                 </div>
-            </section>
+            </div>
         </section>
     )
 }
