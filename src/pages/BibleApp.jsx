@@ -3,6 +3,10 @@ import BibleFilter from '../cmps/BibleFilter.jsx'
 import VerseList from '../cmps/VerseList.jsx'
 import { bibleService } from '../services/bibleService.js'
 
+// const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+// const recognition = new SpeechRecognition()
+// recognition.start()
+
 export default function BibleApp() {
 
     const [chapter, setChapter] = useState({ num: '', verses: [] })
@@ -10,7 +14,14 @@ export default function BibleApp() {
     const [chapterNums, setChapterNums] = useState([])
     const [isGimaOn, setIsGimaOn] = useState(false)
 
+    // const voice = () => {
+    //     recognition.onresult = (ev) => {
+    //         console.log(ev);
+    //     }
+    // }
+
     useEffect(() => {
+        // voice();
         getChapterNums(book)
         loadChapter()
     }, [book])

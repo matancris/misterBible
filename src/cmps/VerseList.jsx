@@ -9,12 +9,14 @@ export default function VerseList({ verses, isGimaOn }) {
                     return (
                         <div key={verse.num} className="words-list flex flex-wrap row-reverse">
                             {<p style={{ marginLeft: 5 + 'px' }}>{verse.num}</p>}
-                            {verse.txt.split(' ').map(word => <span
-                                title={isGimaOn ? bibleService.getGima(word) : ''}
-                                style={{ paddingLeft: 5 + 'px' }}
-                            >
-                                {word}
-                            </span>)}
+                            {React.Children.toArray(
+                                verse.txt.split(' ').map(word => <span
+                                    title={isGimaOn ? bibleService.getGima(word) : ''}
+                                    style={{ paddingLeft: 5 + 'px' }}
+                                >
+                                    {word}
+                                </span>)
+                            )}
                         </div>
                     )
                 })
