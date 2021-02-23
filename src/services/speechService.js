@@ -1,6 +1,6 @@
-export const speechService ={
+export const speechService = {
     start,
-    turnOnListeners
+    onGetRes
 }
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -12,22 +12,25 @@ console.log("🚀 ~ file: BibleApp.jsx ~ line 13 ~ recognition", recognition)
 
 function start() {
     recognition.start()
-}
-
-function turnOnListeners() {
     recognition.onspeechstart = (ev) => {
         console.log('speech start');
-    }
-    recognition.onresult = (ev) => {
-        console.log(ev);
-    }
-    recognition.onnomatch = (ev) => {
-        console.log('no match', ev);
-    }
-    recognition.onerror = (ev) => {
-        console.log('error', ev);
     }
     recognition.onspeechend = () => {
         console.log('speech end');
     }
+}
+
+function onGetRes() {
+    return new Promise((resolve, reject) => {
+        recognition.onresult = (ev) => {
+            return resolve(ev.results[0][0].transcript)
+        }
+        recognition.onnomatch = (ev) => {
+            return reject('no match', ev);
+        }
+        recognition.onerror = (ev) => {
+            return reject('error', ev);
+        }
+
+    })
 }

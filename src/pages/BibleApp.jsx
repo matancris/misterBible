@@ -44,9 +44,10 @@ export default function BibleApp() {
         setIsGimaOn(target.checked)
     }
 
-    const onStartSpeech = (ev) => {
+    const onStartSpeech = async () => {
         speechService.start()
-        speechService.turnOnListeners()
+        const res = await speechService.onGetRes()
+        console.log(res);
     }
 
     return (
