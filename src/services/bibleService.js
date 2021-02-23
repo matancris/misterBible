@@ -1,10 +1,11 @@
-import axios from "axios"
 import { tora } from '../data/torahTeamimDB'
-console.log("🚀 ~ file: bibleService.js ~ line 3 ~ tora", tora)
-const BASE_URL = 'http://localhost:3000/bible'
 
-let gCurrChapterIdx = 0
-let gCurrBook = 'בראשית'
+let gCurrDisplay = {
+    chapterIdx: 0,
+    term: '',
+    book: 'בראשית'
+}
+
 const numeroMap = {
     "א": 1,
     "ב": 2,
@@ -35,7 +36,6 @@ const numeroMap = {
     "ץ": 90,
 }
 
-
 export const bibleService = {
     query,
     getCurrBook,
@@ -47,26 +47,30 @@ export const bibleService = {
 
 
 function query() {
-    return tora[gCurrBook].chapters[gCurrChapterIdx]
+    const currChapter = JSON.parse(JSON.stringify(tora[gCurrDisplay.book].chapters[gCurrDisplay.chapterIdx]))
+    if (gCurrDisplay.term) {
+        currChapter.verses = currChapter.verses.filter(verse => _getClearTxt(verse.txt).includes(gCurrDisplay.term))
+    }
+    return currChapter
 }
 
 function getCurrBook() {
-    return gCurrBook
+    return gCurrDisplay.book;
 }
 
-function setCurrChapter(currChapter, direction = 0) {
-    const chapterIdx = _getChapterIdx(tora[gCurrBook].chapters, currChapter)
-    gCurrChapterIdx = chapterIdx + direction;
-    if (gCurrChapterIdx < 0) gCurrChapterIdx = 0;
+function setCurrChapter(currChapterNum, direction = 0) {
+    const chapterIdx = _getChapterIdx(tora[gCurrDisplay.book].chapters, currChapterNum)
+    gCurrDisplay.chapterIdx = chapterIdx + direction;
+    if (gCurrDisplay.chapterIdx < 0) gCurrDisplay.chapterIdx = 0;
 }
 
-function setCurrDisplay({ book, chapter }) {
-    gCurrChapterIdx = tora[gCurrBook].chapters.findIndex(currChapter => currChapter.num === chapter)
-    gCurrBook = book
+function setCurrDisplay({ book, chapter, term }) {
+    const chapterIdx = _getChapterIdx(tora[gCurrDisplay.book].chapters, chapter)
+    gCurrDisplay = { chapterIdx, book, term }
 }
 
 function getChaptersNum() {
-   return tora[gCurrBook].chapters.reduce((chapterNums, chapter) => {
+    return tora[gCurrDisplay.book].chapters.reduce((chapterNums, chapter) => {
         chapterNums.push(chapter.num)
         return chapterNums
     }, [])
@@ -82,9 +86,14 @@ function getGima(txt) {
 
 // LOCAL FUNCTIONS
 
+function _getChapterIdx(chapters, currChapterNum) {
+    return chapters.findIndex(chapter => chapter.num === currChapterNum)
+}
 
-function _getChapterIdx(chapters, currChapter) {
-    return chapters.findIndex(chapter => chapter.num === currChapter)
+function _getClearTxt(txt) {
+    const alphaBetArr = Object.keys(numeroMap)
+    alphaBetArr.push(' ')
+    return txt.split('').filter(char => alphaBetArr.includes(char)).join('')
 }
 
 

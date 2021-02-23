@@ -3,4 +3,8 @@
     top: 0;
     width: 100%;
     background-color: #fff;
+
+    & > * {
+        margin-inline-end: 5px;
+    }
 }

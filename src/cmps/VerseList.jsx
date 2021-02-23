@@ -5,9 +5,9 @@ export default function VerseList({ verses, isGimaOn }) {
     return (
         <section className="txt">
             {
-                verses.map((verse) => {
+                verses?.map((verse) => {
                     return (
-                        <div key={verse.num} className="words-list flex flex-wrap row-reverse">
+                        <div key={verse.num} className="words-list flex flex-wrap">
                             {<p style={{ marginLeft: 5 + 'px' }}>{verse.num}</p>}
                             {React.Children.toArray(
                                 verse.txt.split(' ').map(word => <span
