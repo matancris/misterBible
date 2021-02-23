@@ -46,7 +46,7 @@ export default function BibleApp() {
 
     const onStartSpeech = (ev) => {
         speechService.start()
-        speechService.voice()
+        speechService.turnOnListeners()
     }
 
     return (

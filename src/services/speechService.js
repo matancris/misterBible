@@ -1,6 +1,6 @@
 export const speechService ={
     start,
-    voice
+    turnOnListeners
 }
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -14,7 +14,7 @@ function start() {
     recognition.start()
 }
 
-function voice() {
+function turnOnListeners() {
     recognition.onspeechstart = (ev) => {
         console.log('speech start');
     }
