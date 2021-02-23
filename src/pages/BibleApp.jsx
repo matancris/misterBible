@@ -14,13 +14,9 @@ export default function BibleApp() {
 
 
     useEffect(() => {
-        speechService.start()
-        speechService.voice()
         getChapterNums(book)
         loadChapter()
     }, [book])
-
-
 
     const loadChapter = () => {
         const chapter = bibleService.query()
@@ -48,10 +44,16 @@ export default function BibleApp() {
         setIsGimaOn(target.checked)
     }
 
+    const onStartSpeech = (ev) => {
+        speechService.start()
+        speechService.voice()
+    }
+
     return (
         <section className="bible-app main-container">
             <div className="main-wrapper flex column align-center">
                 <BibleFilter chapterNums={chapterNums} currChapterNum={chapter.num} onSetFilter={onSetFilter} />
+                <button className="speech-btn" onClick = {onStartSpeech}>start talking</button>
                 <label htmlFor="gimaBtn">גימטריה</label>
                 <input id="gimaBtn" type="checkbox" onChange={onToggleGima} value={isGimaOn} />
                 <div className="view-wrapper flex column">
