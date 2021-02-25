@@ -42,14 +42,15 @@ export const bibleService = {
     setCurrChapter,
     setCurrDisplay,
     getChaptersNum,
-    getGima
+    getGima,
+    getClearTxt
 }
 
 
 function query() {
     const currChapter = JSON.parse(JSON.stringify(tora[gCurrDisplay.book].chapters[gCurrDisplay.chapterIdx]))
     if (gCurrDisplay.term) {
-        currChapter.verses = currChapter.verses.filter(verse => _getClearTxt(verse.txt).includes(gCurrDisplay.term))
+        currChapter.verses = currChapter.verses.filter(verse => getClearTxt(verse.txt).includes(gCurrDisplay.term))
     }
     return currChapter
 }
@@ -84,17 +85,19 @@ function getGima(txt) {
     return numeroTxt
 }
 
+function getClearTxt(txt) {
+    const alphaBetArr = Object.keys(numeroMap)
+    alphaBetArr.push(' ')
+    return txt.split('').filter(char => alphaBetArr.includes(char)).join('')
+}
+
 // LOCAL FUNCTIONS
 
 function _getChapterIdx(chapters, currChapterNum) {
     return chapters.findIndex(chapter => chapter.num === currChapterNum)
 }
 
-function _getClearTxt(txt) {
-    const alphaBetArr = Object.keys(numeroMap)
-    alphaBetArr.push(' ')
-    return txt.split('').filter(char => alphaBetArr.includes(char)).join('')
-}
+
 
 
 

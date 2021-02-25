@@ -22,14 +22,16 @@ function start() {
 
 function onGetRes() {
     return new Promise((resolve, reject) => {
-        recognition.onresult = (ev) => {
-            return resolve(ev.results[0][0].transcript)
+        recognition.onresult = ({ results }) => {
+            console.log(results);
+            return resolve(results[0][0].transcript)
         }
-        recognition.onnomatch = (ev) => {
-            return reject('no match', ev);
+        recognition.onnomatch = () => {
+            return reject('no match');
         }
-        recognition.onerror = (ev) => {
-            return reject('error', ev);
+        recognition.onerror = ({ error }) => {
+            console.log(error);
+            return reject('Error: ' + error);
         }
 
     })

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppHeader from './cmps/AppHeader';
+import BibleFilter from './cmps/BibleFilter';
 import BibleApp from './pages/BibleApp';
 
 
