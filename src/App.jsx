@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppHeader from './cmps/AppHeader';
-import BibleFilter from './cmps/BibleFilter';
+import About from './pages/About';
 import BibleApp from './pages/BibleApp';
 
 
@@ -11,7 +11,8 @@ function App() {
       <AppHeader />
       <main className="app-main">
         <Switch>
-          <Route component={BibleApp} path='/' />
+          <Route component={BibleApp} path='/' exact />
+          <Route component={About} path='/about'  />
         </Switch>
       </main>
     </section>

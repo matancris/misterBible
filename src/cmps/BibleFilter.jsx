@@ -1,3 +1,4 @@
+import { Select } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
@@ -28,7 +29,7 @@ export default function BibleFilter({ chapterNums, onSetFilter, currChapterNum }
 
     return (
         <form className="bible-filter flex justify-center">
-            <select name="book" onChange={ev => onSetCurrFilter(ev)} value={currFilter.book}>
+            <select name="book" onChange={onSetCurrFilter} value={currFilter.book}>
                 <option>בראשית</option>
                 <option>שמות</option>
                 <option>ויקרא</option>
@@ -40,8 +41,8 @@ export default function BibleFilter({ chapterNums, onSetFilter, currChapterNum }
                     chapterNums.map(chapterNum => <option key={chapterNum}>{chapterNum}</option>)
                 }
             </select>
-            <input type="text" name="term"
-                placeholder="חפש בפרק"
+            <input type="search" name="term"
+                placeholder="חיפוש בפרק"
                 value={currFilter.term}
                 onChange={ev => onSetCurrFilter(ev)} />
         </form>

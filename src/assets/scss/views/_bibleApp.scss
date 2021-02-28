@@ -4,18 +4,27 @@
     .view-wrapper {
         height: 100%;
         width: 70%;
+        
+        .title {
+            // align-self: flex-end;
+            padding-top: 10px;
+        }
     }
 
-    .title {
-        // align-self: flex-end;
-        padding-top: 10px;
+    .gima-toggle {
+        position: sticky;
+        top: 0;
     }
+
 
     .main-content {
         width: 100%;
         padding: 20px;
 
         button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: fixed;
             width: 50px;
             height: 50px;
@@ -26,6 +35,12 @@
             color: #ccc;
             top: 50%;
             bottom: 50%;
+
+            path {
+                fill:  #ccc;
+
+            
+            }
 
             &:first-of-type {
                 left: 10vw;
@@ -38,6 +53,10 @@
             &:hover {
                 border: 1px solid #888;
                 color: #888;
+
+                path {
+                    fill: #888;
+                }
             }
         }
     }

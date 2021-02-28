@@ -37,6 +37,9 @@
         flex-wrap: wrap;
     }
     
+    & .align-self-end {
+        align-self: flex-end;
+    }
 }
 
 /* list-helpers */

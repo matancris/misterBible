@@ -43,7 +43,8 @@ export const bibleService = {
     setCurrDisplay,
     getChaptersNum,
     getGima,
-    getClearTxt
+    getClearTxt,
+    getChapterTXT
 }
 
 
@@ -180,7 +181,7 @@ function _getChapterIdx(chapters, currChapterNum) {
 //     }
 //     return chapterForDisplay
 // }
-// function _getChapterTXT(chapter) {
-//     const chapterTxts = chapter.verses.map(verse => verse.txt)
-//     return chapterTxts.join(' ')
-// }
+function getChapterTXT(chapter) {
+    const chapterTxts = chapter.verses.map(verse => verse.txt)
+    return chapterTxts.join(' ')
+}
