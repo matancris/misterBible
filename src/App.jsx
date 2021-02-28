@@ -11,8 +11,8 @@ function App() {
       <AppHeader />
       <main className="app-main">
         <Switch>
-          <Route component={BibleApp} path='/' exact />
-          <Route component={About} path='/about'  />
+          <Route component={About} path='/about' />
+          <Route component={BibleApp} path='/' />
         </Switch>
       </main>
     </section>
