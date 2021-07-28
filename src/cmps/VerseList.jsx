@@ -1,7 +1,7 @@
 import React from 'react'
 import { bibleService } from '../services/bibleService'
 
-export default function VerseList({ verses, isGimaOn, spoken }) {
+export default function VerseList({ verses, isGimaOn }) {
 
     return (
         <section className="txt">

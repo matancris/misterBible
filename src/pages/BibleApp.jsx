@@ -44,8 +44,6 @@ export default function BibleApp() {
         setIsGimaOn(target.checked)
     }
 
-
-
     return (
         <section className="bible-app main-container">
             <div className="main-wrapper flex column align-center">
